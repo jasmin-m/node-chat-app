@@ -16,10 +16,20 @@ app.use(express.static(publicPath));
 //Lets you register an event listener we can listen for
 //a specific event and do something when that event happens
 //listen for a connection
-io.on('connection', (socket) => {
+io.on('connection', function (socket) {
   console.log('New user connected');
 
-  socket.on('disconnect', () => {
+  socket.emit('newMessage', {
+    from: 'Dary',
+    text: 'See you then.',
+    createdAt: 123123
+  });
+
+  socket.on('createMessage', (message) => {
+    console.log('createMessage', message);
+  });
+
+  socket.on('disconnect', function () {
     console.log('Client disconnected');
   })
 });
